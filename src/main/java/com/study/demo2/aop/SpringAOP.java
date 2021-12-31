@@ -27,7 +27,7 @@ public class SpringAOP {
      *
      *       3.切入点表达式案例练习：
      *       3.1 @Pointcut("bean(userServiceImpl)") 只匹配ID为userServiceImpl的对象
-     *       3.2拦截数据注解 写法： @Pointcut("within(com.study.demo2.service.*)") 匹配xx.xx.service下的所有对象
+     *       @Pointcut("within(com.study.demo2.service.*)") 匹配xx.xx.service下的所有对象
      */
     @Pointcut("bean(userServiceImpl)")
     public void pointcut(){
