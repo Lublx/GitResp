@@ -1,6 +1,8 @@
 package com.study.demo2.aop;
 
 import com.study.demo2.anno.Find;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -46,10 +48,30 @@ public class SpringAOP {
      *      3、异常通知  在目标方法执行之后抛出异常时执行
      *      4.、最终通知 都要执行的通知
      *      5、环绕通知  在目标方法执行前后都要执行的通知
+     *
+     *      记录程序的状态：
+     *      1.目标对象的class/ 类路径
+     *      2.目标对象的方法名
+     *      3.目标对象的方法的参数信息
+     *      4.获取目标对象方法的返回值
+     *      5.获取目标对象执行报错的异常信息.
      */
     @Before("pointcut()")
-    public void before(){
-        System.out.println("你好，我是前置通知");
+    public void before(JoinPoint joinPoint){
+        //1.获取目标对象的类型
+        Class targetClass = joinPoint.getTarget().getClass();
+        //2.获取目标对象的路径
+        String path = joinPoint.getSignature().getDeclaringTypeName();
+        //3.获取目标对象的方法名称
+        String methodName = joinPoint.getSignature().getName();
+        //4.获取方法参数
+        Object[] args = joinPoint.getArgs();
+    }
+    //注意事项：如果多个参数，joinPoint必须位于第一位！
+    @AfterReturning(value = "pointcut()",returning = "result")
+    public void afterReturn(JoinPoint joinPoint,Object result){
+        //如果需要获取当前的方法信息，则可以通过joinPoint获取
+        System.out.println("我是后置通知，获取方法的返回值:"+result);
     }
 
     @Before("@annotation(find)")

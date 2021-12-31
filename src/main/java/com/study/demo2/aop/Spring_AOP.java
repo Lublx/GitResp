@@ -15,5 +15,6 @@ public class Spring_AOP {
         //如果是代理对象，则方法被扩展 oop有效的
         System.out.println(userService.getClass());
         userService.addUser();
+        userService.findCount(); //测试带返回值的方法
     }
 }
