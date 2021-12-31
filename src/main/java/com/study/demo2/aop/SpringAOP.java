@@ -24,6 +24,7 @@ public class SpringAOP {
      *       2.2 within("包名.类名")
      *       2.3 execution(返回值类型    包名.类名.方法名(参数列表))
      *       2.4 @annotation（注解的路径）
+     *       拦截数据注解 写法： @Pointcut("within(com.study.demo2.service.*)")
      */
     @Pointcut("bean(userServiceImpl)")
     public void pointcut(){
