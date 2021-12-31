@@ -1,9 +1,13 @@
 package com.study.demo2.aop;
 
+import com.study.demo2.anno.Find;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 @Component  //将当前类交给Spring容器管理
 @Aspect          //标识一个切面类
@@ -28,8 +32,9 @@ public class SpringAOP {
      *       3.切入点表达式案例练习：
      *       3.1 @Pointcut("bean(userServiceImpl)") 只匹配ID为userServiceImpl的对象
      *       @Pointcut("within(com.study.demo2.service.*)") 匹配xx.xx.service下的所有对象
+     *       @Pointcut("@annotation(com.study.demo2.anno.CBB21)")  自定义注解
      */
-    @Pointcut("bean(userServiceImpl)")
+    @Pointcut("@annotation(com.study.demo2.anno.CBB21)")
     public void pointcut(){
 
     }
@@ -45,5 +50,10 @@ public class SpringAOP {
     @Before("pointcut()")
     public void before(){
         System.out.println("你好，我是前置通知");
+    }
+
+    @Before("@annotation(find)")
+    public void before2(Find find){
+        System.out.println("ID的值为:"+find.id());
     }
 }
