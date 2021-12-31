@@ -20,6 +20,7 @@ public class SpringAOP {
      *
      *       2.切入点表达式
      *       2.1 bean("对象的id")
+     *          2.1.1每次拦截，只拦截1个
      *       2.2 within("包名.类名")
      *       2.3 execution(返回值类型    包名.类名.方法名(参数列表))
      *       2.4 @annotation（注解的路径）
