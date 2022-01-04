@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService{
     @Override
     @CBB21      //标记作用
-    @Find(id = 200)
+    @Find(id = 600)
+
     public void addUser(){
 
-        System.out.println("事务");
+        System.out.println("完成用户新增");
         int a = 1/0;
     }
 

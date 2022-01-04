@@ -2,14 +2,9 @@ package com.study.demo2.aop;
 
 import com.study.demo2.anno.Find;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 @Component  //将当前类交给Spring容器管理
 @Aspect          //标识一个切面类
@@ -68,14 +63,56 @@ public class SpringAOP {
         Object[] args = joinPoint.getArgs();
     }
     //注意事项：如果多个参数，joinPoint必须位于第一位！
+    /*@AfterThrowing(value = "pointcut()",throwing = "exception")
+    public void afterThrow(JoinPoint joinPoint,Exception exception){
+        //如果需要获取当前的方法信息，则可以通过joinPoint获取
+        System.out.println("我是异常通知:"+ exception.getMessage());
+    }*/
+
+    //环绕通知
+
+    /**
+     * 环绕通知：
+     *  特点：
+     *          1.方法执行前后，通知都要执行
+     *          2.环绕通知可以控制目标方法是否执行
+     *          3.环绕通知必须添加返回值
+     *   proceed()
+     *           作用1：如果有下一个通知，则执行下一个通知
+     *           作用2：如果没有下一个通知，则执行目标方法
+     */
+
+    @Around("pointcut()")
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("环绕通知开始！！！");
+        Object result = joinPoint.proceed();
+        System.out.println("环绕通知结束！！");
+        return result;
+    }
+
+
+    //最终通知
+    @After("pointcut()")
+    public void after(){
+        System.out.println("最终通知方法！");
+    }
+
+    /* 异常通知和后置通知只能存在一个 因为彼此互斥
+
     @AfterReturning(value = "pointcut()",returning = "result")
     public void afterReturn(JoinPoint joinPoint,Object result){
         //如果需要获取当前的方法信息，则可以通过joinPoint获取
         System.out.println("我是后置通知，获取方法的返回值:"+result);
-    }
+
+        代码解释：
+            1.@annotation(find) 拦截find变量名称对应类型的注解
+            2.当匹配该注解之后，将注解对象当做参数传递给find
+            优势：可以一步到位获取注解的内容，避免了反射的代码
+    }*/
 
     @Before("@annotation(find)")
     public void before2(Find find){
-        System.out.println("ID的值为:"+find.id());
+        System.out.println("ID的值为:"+find.id()
+        );
     }
 }
