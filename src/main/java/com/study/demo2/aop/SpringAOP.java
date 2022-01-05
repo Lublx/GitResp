@@ -4,10 +4,12 @@ import com.study.demo2.anno.Find;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component  //将当前类交给Spring容器管理
 @Aspect          //标识一个切面类
+@Order(1)       //可以利用order关键字 实现AOP的排序 数字越小优先级越高
 public class SpringAOP {
 
     /**
